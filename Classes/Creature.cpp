@@ -14,17 +14,17 @@ USING_NS_CC;
 Creature::Creature()
 {
     _sprite = NULL;
-    hp = 0;
-    mp = 0;
-    power = 0;
-    physical = 0;
-    quickness = 0;
-    dexterity = 0;
-    cleverness = 0;
-    chie = 0;
-    smartness = 0;
-    strength = 0;
-    charm = 0;
+    hp = 100;
+    mp = 100;
+    power = 100;
+    physical = 100;
+    quickness = 100;
+    dexterity = 100;
+    cleverness = 100;
+    chie = 100;
+    smartness = 100;
+    strength = 100;
+    charm = 100;
 }
 Creature::~Creature()
 {
@@ -45,7 +45,8 @@ bool Creature::init()
 
 void Creature::attack(Creature *otherCreature)
 {
-    otherCreature->setHp(otherCreature->getHp() - getMp());
+    
+    otherCreature->setHp(otherCreature->getHp() - this->getMp());
     if (otherCreature->getHp() <= 0)
     {
         otherCreature->setHp(0);
@@ -57,9 +58,15 @@ void Creature::attack(Creature *otherCreature)
 
 void Creature::checkDie()
 {
+    CCLOG("DISPLAY HP OF ENEMY %f", this->getHp());
     if (this->getHp() <= 0)
+    {
+        
         //display messgage otherCreate is die
         CCLOG("display message current creature is died");
+        die();
+        
+    }
    
 }
 

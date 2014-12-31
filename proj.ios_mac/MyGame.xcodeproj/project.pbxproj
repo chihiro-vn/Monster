@@ -67,6 +67,9 @@
 		593164451A480F7E0042B3BD /* menusheet.png in Resources */ = {isa = PBXBuildFile; fileRef = 593164441A480F7E0042B3BD /* menusheet.png */; };
 		593164491A48259E0042B3BD /* cloud001.png in Resources */ = {isa = PBXBuildFile; fileRef = 593164481A48259E0042B3BD /* cloud001.png */; };
 		593D5B4A1A4A6F7700366539 /* audio in Resources */ = {isa = PBXBuildFile; fileRef = 593D5B491A4A6F7700366539 /* audio */; };
+		599A93E11A53E41D006DDC51 /* click.png in Resources */ = {isa = PBXBuildFile; fileRef = 599A93E01A53E41D006DDC51 /* click.png */; };
+		599A93E31A53E9A8006DDC51 /* next.png in Resources */ = {isa = PBXBuildFile; fileRef = 599A93E21A53E9A7006DDC51 /* next.png */; };
+		59B4EF9D1A53B950000B7B5F /* MessageBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59B4EF9B1A53B950000B7B5F /* MessageBox.cpp */; };
 		59B800971A523E43001B57FB /* bg_3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 59B800961A523E43001B57FB /* bg_3.jpg */; };
 		59B800991A523E4D001B57FB /* click.gif in Resources */ = {isa = PBXBuildFile; fileRef = 59B800981A523E4D001B57FB /* click.gif */; };
 		59B800A01A526D30001B57FB /* MonsterBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59B8009E1A526D30001B57FB /* MonsterBox.cpp */; };
@@ -182,6 +185,10 @@
 		593164441A480F7E0042B3BD /* menusheet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menusheet.png; sourceTree = "<group>"; };
 		593164481A48259E0042B3BD /* cloud001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud001.png; sourceTree = "<group>"; };
 		593D5B491A4A6F7700366539 /* audio */ = {isa = PBXFileReference; lastKnownFileType = folder; path = audio; sourceTree = "<group>"; };
+		599A93E01A53E41D006DDC51 /* click.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = click.png; sourceTree = "<group>"; };
+		599A93E21A53E9A7006DDC51 /* next.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = next.png; sourceTree = "<group>"; };
+		59B4EF9B1A53B950000B7B5F /* MessageBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessageBox.cpp; sourceTree = "<group>"; };
+		59B4EF9C1A53B950000B7B5F /* MessageBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageBox.h; sourceTree = "<group>"; };
 		59B800961A523E43001B57FB /* bg_3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg_3.jpg; sourceTree = "<group>"; };
 		59B800981A523E4D001B57FB /* click.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = click.gif; sourceTree = "<group>"; };
 		59B8009E1A526D30001B57FB /* MonsterBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MonsterBox.cpp; sourceTree = "<group>"; };
@@ -320,6 +327,8 @@
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				599A93E21A53E9A7006DDC51 /* next.png */,
+				599A93E01A53E41D006DDC51 /* click.png */,
 				59B800A51A529A5D001B57FB /* tl.png */,
 				59B800A61A529A5D001B57FB /* tr.png */,
 				59B800A11A529A26001B57FB /* bl.png */,
@@ -362,6 +371,8 @@
 				59F24DDB1A515E69008361AF /* Enemy.h */,
 				59B8009E1A526D30001B57FB /* MonsterBox.cpp */,
 				59B8009F1A526D30001B57FB /* MonsterBox.h */,
+				59B4EF9B1A53B950000B7B5F /* MessageBox.cpp */,
+				59B4EF9C1A53B950000B7B5F /* MessageBox.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -528,6 +539,7 @@
 				5087E78517EB970100C73F5D /* Icon-72.png in Resources */,
 				521A8E6519F0C34300D177D7 /* Default-736h@3x.png in Resources */,
 				521A8EA919F11F5000D177D7 /* fonts in Resources */,
+				599A93E31A53E9A8006DDC51 /* next.png in Resources */,
 				50EF62A317ECD613001EB2F8 /* Icon-50.png in Resources */,
 				59B800A81A529A5D001B57FB /* tr.png in Resources */,
 				59F118AA1A514794004AA68B /* player.png in Resources */,
@@ -535,6 +547,7 @@
 				50EF62A217ECD613001EB2F8 /* Icon-29.png in Resources */,
 				50EF629617ECD46A001EB2F8 /* Icon-40.png in Resources */,
 				5087E78217EB970100C73F5D /* Icon-144.png in Resources */,
+				599A93E11A53E41D006DDC51 /* click.png in Resources */,
 				59F1189B1A50EE53004AA68B /* char2.png in Resources */,
 				3EACC98F19EE6D4300EB3C5E /* res in Resources */,
 				593164451A480F7E0042B3BD /* menusheet.png in Resources */,
@@ -583,6 +596,7 @@
 				59F118A71A510393004AA68B /* Creature.cpp in Sources */,
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				59F24DDC1A515E69008361AF /* Enemy.cpp in Sources */,
+				59B4EF9D1A53B950000B7B5F /* MessageBox.cpp in Sources */,
 				59F24DD91A515E5C008361AF /* Player.cpp in Sources */,
 				46880B8A19C43A87006E1F66 /* HelloWorldScene.cpp in Sources */,
 				59B800A01A526D30001B57FB /* MonsterBox.cpp in Sources */,

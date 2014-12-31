@@ -6,12 +6,14 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "MonsterBox.h"
+#include "MessageBox.h"
 
 class HelloWorld : public cocos2d::Layer
 {
 private:
-    cocos2d::Node *link1;
-    cocos2d::Node *link2;
+    class Player *myplayer;
+    class Enemy *myEnemy1;
+    class Enemy *myEnemy2;
 public:
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
     static cocos2d::Scene* createScene();

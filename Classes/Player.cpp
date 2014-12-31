@@ -11,8 +11,6 @@
 
 Player::Player()
 {
-    hp = 100;
-    mp = 10;
 }
 Player::~Player()
 {

@@ -34,10 +34,10 @@ bool HelloWorld::init()
         return false;
     }
     
-    
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
+
     auto closeItem = MenuItemImage::create(
                                            "CloseNormal.png",
                                            "CloseSelected.png",
@@ -52,12 +52,14 @@ bool HelloWorld::init()
     
     this->addChild(menu_close, 1);
     
+    schedule(schedule_selector(HelloWorld::update), 0.1f);
+    //Draw Background
     Sprite * spriteBG = Sprite::create("bg_3.jpg");
     spriteBG->setScale((this->getContentSize().width)/spriteBG->getContentSize().width,
                      (this->getContentSize().height)/spriteBG->getContentSize().height);
     
     spriteBG->setPosition(Vec2(this->getContentSize().width/2,
-                               this->getContentSize().height/2 + 150));
+                               this->getContentSize().height/2 + 100));
 
     addChild(spriteBG);
     
@@ -97,7 +99,8 @@ bool HelloWorld::init()
     
     //draw 1 player and 2 enemy
     // trying to draw
-    class Player * myplayer = new class Player ();
+//    class Player * myplayer = new class Player ();
+    myplayer = new class Player();
     myplayer->_sprite = Sprite::create("player.png");
     
    
@@ -106,8 +109,8 @@ bool HelloWorld::init()
     
     addChild(myplayer->_sprite);
     
-    class Enemy * myEnemy1 = new class Enemy();
-    class Enemy * myEnemy2 = new class Enemy();
+    myEnemy1 = new class Enemy();
+    myEnemy2 = new class Enemy();
     
     myEnemy1->_sprite = Sprite::create("char1.png");
     myEnemy2->_sprite = Sprite::create("char2.png");
@@ -138,6 +141,12 @@ bool HelloWorld::init()
     CCLOG("content size of scene %f %f", this->getContentSize().width,
           this->getContentSize().height);
     
+    //draw message box
+    class MessageBox * mss = new class MessageBox();
+    mss->setPosition(Vec2::ZERO);
+//    mss->setPosition(Vec2(this->getContentSize().width/2 - mss->getContentSize().width/2,
+//                          200 + mss->getContentSize().height/2));
+    addChild(mss);
     
     
     return true;
@@ -193,11 +202,8 @@ void HelloWorld::DrawEngine(CreatureType _type)
 
 void HelloWorld::Apply(cocos2d::Ref *pSender)
 {
-    Node * node = (Node *) pSender;
-    int tag = node->getTag();
-    CCLOG("Click menu item = %d", tag);
-  
-   
+    myplayer->attack(myEnemy1);
+    
 }
 
 

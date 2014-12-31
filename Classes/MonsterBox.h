@@ -23,15 +23,15 @@ private:
     Sprite *spBackGround;
     Sprite *spSepLine;
     Label *lbname;
-//    Label *lbPower;
-//    Label *lbPhysical;
-//    Label *lbQuickness;
-//    Label *lbDexterity;
-//    Label *lbCleverness;
-//    Label *lbChie;
-//    Label *lbSmartness;
-//    Label *lbStrength;
-//    Label *lbCharm;
+    Label *lbPower;
+    Label *lbPhysical;
+    Label *lbQuickness;
+    Label *lbDexterity;
+    Label *lbCleverness;
+    Label *lbChie;
+    Label *lbSmartness;
+    Label *lbStrength;
+    Label *lbCharm;
 public:
     MonsterBox();
     virtual ~ MonsterBox();
