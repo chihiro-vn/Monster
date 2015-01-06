@@ -23,6 +23,9 @@ private:
     Sprite *spBackGround;
     Sprite *spSepLine;
     Label *lbname;
+    Label * lbHP;
+    Label * lbMP;
+    
     Label *lbPower;
     Label *lbPhysical;
     Label *lbQuickness;
@@ -35,7 +38,7 @@ private:
 public:
     MonsterBox();
     virtual ~ MonsterBox();
-    void drawMonsterBox(class Enemy * _enemy);
+    void drawMonsterBox(class Creature *_creature);
     
     void setMyEnemy(Enemy enemy);
     

@@ -15,6 +15,7 @@ USING_NS_CC;
 
 MessageBox::MessageBox()
 {
+    delegate = nullptr;
     
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin1 = Director::getInstance()->getVisibleOrigin();
@@ -32,9 +33,7 @@ MessageBox::MessageBox()
     
     this->addChild(spBackGround);
     
-    //
-
-    
+   
     //add sprite next
     
 
@@ -51,23 +50,43 @@ MessageBox::MessageBox()
     auto menu_next = Menu::create(btNext, NULL);
     menu_next->setPosition(Vec2::ZERO);
     this->addChild(menu_next, 1);
+
+
     
-    //add initial message
-    auto lbMessage = Label::createWithTTF("まどうしが現れた。\n しりょうが現れた。", "fonts/MS Gothic.ttf", 35);
-    lbMessage->setPosition(Vec2::ZERO);
-    addChild(lbMessage);
     
 }
 MessageBox::~MessageBox()
 {
-    
+    delegate = nullptr;
 }
 
                         
 void MessageBox::NextScreen(cocos2d::Ref *pSender)
-{
+{   
     this->removeFromParent();
+    if(delegate) {
+        delegate->onBtnNextTouch(this);
+    }
 }
+void MessageBox::Display(char *sms)
+{
+    
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin1 = Director::getInstance()->getVisibleOrigin();
+    Size target = Size(visibleSize.width - 200, visibleSize.height/4);
+    Size origin = spBackGround->getContentSize();
+    
+    
+    //add initial message
+    auto lbMessage = Label::createWithTTF(sms, "fonts/MS Gothic.ttf", 35);
+    lbMessage->setPosition(Vec2(visibleSize.width/2,
+                                target.height/2 + 70));
+    addChild(lbMessage);
+    
+    CCLOG("Message temp: %s", sms);
+}
+
+
 
 
 

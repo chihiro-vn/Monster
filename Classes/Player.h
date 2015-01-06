@@ -8,9 +8,10 @@
 
 #ifndef __MyGame__Player__
 #define __MyGame__Player__
+
 #include "Creature.h"
 #include "cocos2d.h"
-#include <stdio.h>
+
 class Player : public Creature
 {
 

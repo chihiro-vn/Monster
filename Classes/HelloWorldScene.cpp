@@ -14,12 +14,29 @@ Scene* HelloWorld::createScene()
     
     // 'layer' is an autorelease object
     auto layer = HelloWorld::create();
-    
+    layer->setTag(9999);
     // add layer as a child to scene
     scene->addChild(layer);
     
     // return the scene
     return scene;
+}
+
+Scene* HelloWorld::createScene(Creature *player, Creature *enemy)
+{
+    auto scene = Scene::create();
+    auto layer = new (std::nothrow) HelloWorld();
+    
+    
+    if(layer && layer->init(player, enemy)) {
+        scene->addChild(layer);
+        return scene;
+    }
+    return nullptr;
+}
+
+void HelloWorld::onBtnNextTouch(cocos2d::Ref *pSender) {
+    
 }
 
 // on "init" you need to initialize your instance
@@ -53,15 +70,63 @@ bool HelloWorld::init()
     this->addChild(menu_close, 1);
     
     schedule(schedule_selector(HelloWorld::update), 0.1f);
+    
+    return true;
+}
+
+bool HelloWorld::init(Creature* player, Creature* enemy) {
+    if(!Layer::init()) {
+        return false;
+    }
+    this->setmyPlayer(player);
+    this->setmyEnemy(enemy);
+    
+    
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
+    
+    //create monsterbox as information of player
+    auto note = MonsterBox::create();
+    note->setContentSize(Size(150, 150));
+    note->setTag(0);
+    this->addChild(note);
+    
+    
+    note->setPosition(Vec2(origin.x + visibleSize.width - note->getContentSize().width - 10,
+                           origin.y + visibleSize.height - note->getContentSize().height - 10));
+    
+    note->drawMonsterBox(player);
+    
+    //create monsterbox as information of emeny
+    auto note2 = MonsterBox::create();
+    
+    
+    note2->setContentSize(Size(150, 150));
+    
+    note2->setPosition(Vec2(note->getPosition().x - note->getContentSize().width - 30,
+                            note->getPosition().y));
+    
+    note2->setTag(1);
+    this->addChild(note2);
+    note2->drawMonsterBox(enemy);
+    CCLOG("helloworld/ monsterbox. position %f %f: ", note2->getPosition().x, note2->getPosition().y);
+    
+    
+///
+    
     //Draw Background
     Sprite * spriteBG = Sprite::create("bg_3.jpg");
     spriteBG->setScale((this->getContentSize().width)/spriteBG->getContentSize().width,
-                     (this->getContentSize().height)/spriteBG->getContentSize().height);
+                       (this->getContentSize().height)/spriteBG->getContentSize().height);
     
     spriteBG->setPosition(Vec2(this->getContentSize().width/2,
                                this->getContentSize().height/2 + 100));
-
+    
     addChild(spriteBG);
+    //draw 2 sprites
+    
+    DrawEngine(this->getmyPlayer(), this->getmyEnemy());
     
     //draw menu item
     Menu * menu = Menu::create();
@@ -83,8 +148,9 @@ bool HelloWorld::init()
     for (int i = 0; i < 5; i++)
     {
         String * name = (String *) arr->getObjectAtIndex(i);
- 
+        
         Label * labelNode = Label::createWithTTF(name->getCString(), "fonts/MS Gothic.ttf", 24);
+        
         MenuItem * item = MenuItemLabel::create(labelNode, CC_CALLBACK_1(HelloWorld::ClickMenu, this));
         item->setTag(i);
         if (i >= 3 )
@@ -97,57 +163,16 @@ bool HelloWorld::init()
         item->setAnchorPoint(ccp(0, 0));
     }
     
-    //draw 1 player and 2 enemy
-    // trying to draw
-//    class Player * myplayer = new class Player ();
-    myplayer = new class Player();
-    myplayer->_sprite = Sprite::create("player.png");
-    
-   
-    myplayer->_sprite->setPosition(myplayer->_sprite->getContentSize().width/2 + 30,
-                                   myplayer->_sprite->getContentSize().height/2 + 30);
-    
-    addChild(myplayer->_sprite);
-    
-    myEnemy1 = new class Enemy();
-    myEnemy2 = new class Enemy();
-    
-    myEnemy1->_sprite = Sprite::create("char1.png");
-    myEnemy2->_sprite = Sprite::create("char2.png");
-
-    myEnemy1->_sprite->setScale(1.5);
-    myEnemy2->_sprite->setScale(1.5);
-    
-    myEnemy1->_sprite->setPosition(this->getContentSize()/2 - myEnemy1->_sprite->getContentSize()/2);
-    myEnemy1->_sprite->setPosition(Vec2(myEnemy1->_sprite->getPosition().x - 100,
-                               myEnemy1->_sprite->getPosition().x - 100));
-    
-    addChild(myEnemy1->_sprite);
-
-    myEnemy2->_sprite->setPosition(this->getContentSize()/2 - myEnemy2->_sprite->getContentSize()/2);
-    myEnemy2->_sprite->setPosition(Vec2(myEnemy2->_sprite->getPosition().x + 100,
-                               myEnemy2->_sprite->getPosition().x - 100));
-    addChild(myEnemy2->_sprite);
-    
-    
-    //draw Monsterbox
-    class MonsterBox * myMonsterBox = new class MonsterBox();
-    myMonsterBox->setAnchorPoint(Vec2(0, 0));
-    myMonsterBox->setPosition(Vec2(this->getContentSize().width - myMonsterBox->getContentSize().width - 10,
-                                   this->getContentSize().height - myMonsterBox->getContentSize().height - 10));
-    
-//    myMonsterBox->setAnchorPoint(Vec2(1, 1));
-    addChild(myMonsterBox);
-    CCLOG("content size of scene %f %f", this->getContentSize().width,
-          this->getContentSize().height);
-    
     //draw message box
-    class MessageBox * mss = new class MessageBox();
-    mss->setPosition(Vec2::ZERO);
-//    mss->setPosition(Vec2(this->getContentSize().width/2 - mss->getContentSize().width/2,
-//                          200 + mss->getContentSize().height/2));
-    addChild(mss);
+    messageBox = new class MessageBox();
+    messageBox->setPosition(Vec2::ZERO);
+    messageBox->delegate = this;
+    addChild(messageBox);
     
+    //display message intro
+    this->setState(0);
+    char * temp = "ななしが現れた。\n まどうしが現れた。";
+    messageBox->Display(temp);
     
     return true;
 }
@@ -157,52 +182,122 @@ void HelloWorld::ClickMenu(cocos2d::Ref *pSender)
     Node * node = (Node *) pSender;
     int tag = node->getTag();
     CCLOG("Click menu item = %d", tag);
-    
+    char * sms = NULL;
     if (tag == 0)
     {
-        //loading new menu
+   
+        this->setState(1); //state attack
+        
+        messageBox = new class MessageBox();
+        messageBox->setPosition(Vec2::ZERO);
+        messageBox->delegate = this;
+        addChild(messageBox);
+//        if (this->getmyPlayer()->checkDie())
+//        {
+//            sms = "ななしは、なくなる。";
+//            this->CreateMessage(sms);
+//            
+//        }
+//        if(this->getmyEnemy()->checkDie())
+//        {
+//            sms = "まどうしは、なくなる。";
+//            this->CreateMessage(sms);
+//        }
+        if(this->getmyPlayer()->getHp() != 0 && this->getmyEnemy()->getHp() != 0)
         {
-            Menu * menu = Menu::create();
-            menu->setPosition(Vec2::ZERO);
-            menu->setContentSize(this->getContentSize());
-            addChild(menu);
-            
-            Array * arr = Array::create();
-            arr->addObject(String::create("まどうし"));
-            arr->addObject(String::create("しりょう"));
-           
-            int posX = 420;
-            int posY = 100;
-            int dis = 10;
-            
-            for (int i = 0; i < 2; i++)
+            this->getmyPlayer()->attack(this->getmyEnemy());
+            sms = "ななしは、まどうしを攻撃した。";
+            messageBox->Display(sms);
+            //turn base
+            if(this->getmyPlayer()->getHp() != 0 && this->getmyEnemy()->getHp() != 0)
             {
-                String * name = (String *) arr->getObjectAtIndex(i);
-                Label * labelNode = Label::createWithTTF(name->getCString(), "fonts/MS Gothic.ttf", 24);
-                MenuItem * item = MenuItemLabel::create(labelNode, CC_CALLBACK_1(HelloWorld::Apply, this));
-                item->setTag(i);
-                item->setPosition(posX, posY - (item->getContentSize().height + dis)*i);
-                menu->addChild(item);
-                item->setAnchorPoint(ccp(0, 0));
+                sms = "まどうし、はななしを攻撃した。";
+                this->getmyEnemy()->attack(this->getmyPlayer());
+                messageBox->Display(sms);
             }
-
+            
+            //            messageBox->removeFromParent();
+            
+            CCLOG("HP of player: %d \n HP of enemy: %d", this->getmyPlayer()->getHp(), this->getmyEnemy()->getHp());
+            
+            
         }
+        
+        
+//        //loading new menu
+//        {
+//            Menu * menu = Menu::create();
+//            menu->setPosition(Vec2::ZERO);
+//            menu->setContentSize(this->getContentSize());
+//            addChild(menu);
+//            
+//            Array * arr = Array::create();
+//            arr->addObject(String::create("まどうし"));
+//            arr->addObject(String::create("しりょう"));
+//           
+//            int posX = 420;
+//            int posY = 100;
+//            int dis = 10;
+//            
+//            for (int i = 0; i < 2; i++)
+//            {
+//                String * name = (String *) arr->getObjectAtIndex(i);
+//                Label * labelNode = Label::createWithTTF(name->getCString(), "fonts/MS Gothic.ttf", 24);
+//                MenuItem * item = MenuItemLabel::create(labelNode, CC_CALLBACK_1(HelloWorld::Apply, this));
+//                item->setTag(i);
+//                item->setPosition(posX, posY - (item->getContentSize().height + dis)*i);
+//                menu->addChild(item);
+//                item->setAnchorPoint(ccp(0, 0));
+//            }
+//
+//        }
         
     }
     
 }
-
-void HelloWorld::DrawEngine(CreatureType _type)
+void HelloWorld::CreateMessage(char * sms)
 {
-    Label *labelNode = Label::createWithTTF("ななし-1", "fonts/MS Gothic.ttf", 30);
-    labelNode->setPosition(labelNode->getContentSize().width,
-                           this->getContentSize().height - 50 - labelNode->getContentSize().height);
-    addChild(labelNode);
+    if (!messageBox)
+    {
+        messageBox = new class MessageBox();
+        messageBox->setPosition(Vec2::ZERO);
+        messageBox->delegate = this;
+        addChild(messageBox);
+    }
+    
+    sms = "ななしは、なくなる。";
+    messageBox->Display(sms);
+    //sleep messageBox
+//    messageBox->removeFromParent();
+    messageBox->pause();
+    
+}
+
+void HelloWorld::DrawEngine(class Creature *myPlayer, class Creature *myEnemy)
+{
+    CCLOG("CALL METHOD DRAW ENGINE");
+    myPlayer->_sprite->setScale(1.5);
+    myEnemy->_sprite->setScale(1.5);
+    
+    
+    myPlayer->_sprite->setPosition(this->getContentSize()/2 - myPlayer->_sprite->getContentSize()/2);
+    myPlayer->_sprite->setPosition(Vec2(myPlayer->_sprite->getPosition().x - 100,
+                                        myPlayer->_sprite->getPosition().x - 100));
+    
+    this->addChild(myPlayer->_sprite);
+
+   
+    myEnemy->_sprite->setPosition(this->getContentSize()/2 - myEnemy->_sprite->getContentSize()/2);
+    myEnemy->_sprite->setPosition(Vec2(myEnemy->_sprite->getPosition().x + 100,
+                                        myEnemy->_sprite->getPosition().x - 100));
+    addChild(myEnemy->_sprite);
+    
+    
 }
 
 void HelloWorld::Apply(cocos2d::Ref *pSender)
 {
-    myplayer->attack(myEnemy1);
+//    myplayer->attack(myEnemy1);
     
 }
 

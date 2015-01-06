@@ -27,9 +27,10 @@ private:
     
     CC_SYNTHESIZE(CreatureType, type, Type);
 
-    void checkDie();
+    
 public:
     cocos2d::Sprite * _sprite;
+    
     CC_SYNTHESIZE(int, hp, Hp );
     CC_SYNTHESIZE(int, mp, Mp);
     CC_SYNTHESIZE(int, power, Power);
@@ -47,6 +48,7 @@ public:
     
     virtual bool init();
     void attack(Creature * otherCreature);
+    bool checkDie();
     void die();
     // implement the "static create()" method manually
     CREATE_FUNC(Creature);

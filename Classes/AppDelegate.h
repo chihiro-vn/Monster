@@ -2,7 +2,8 @@
 #define  _APP_DELEGATE_H_
 
 #include "cocos2d.h"
-
+#include "Player.h"
+#include "Enemy.h"
 /**
 @brief    The cocos2d Application.
 
@@ -10,6 +11,11 @@ The reason for implement as private inheritance is to hide some interface call b
 */
 class  AppDelegate : private cocos2d::Application
 {
+public:
+
+    class Player *myPlayer;
+    class Enemy *myEnemy;
+    
 public:
     AppDelegate();
     virtual ~AppDelegate();
@@ -34,6 +40,9 @@ public:
     @param  the pointer of the application
     */
     virtual void applicationWillEnterForeground();
+    
+    //set up the creature for battle
+    void setUp();
 };
 
 #endif // _APP_DELEGATE_H_

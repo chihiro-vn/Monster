@@ -46,7 +46,7 @@ bool Creature::init()
 void Creature::attack(Creature *otherCreature)
 {
     
-    otherCreature->setHp(otherCreature->getHp() - this->getMp());
+    otherCreature->setHp(otherCreature->getHp() - 500);
     if (otherCreature->getHp() <= 0)
     {
         otherCreature->setHp(0);
@@ -56,17 +56,19 @@ void Creature::attack(Creature *otherCreature)
 }
 
 
-void Creature::checkDie()
+bool Creature::checkDie()
 {
-    CCLOG("DISPLAY HP OF ENEMY %f", this->getHp());
+    CCLOG("DISPLAY HP OF ENEMY %d", this->getHp());
     if (this->getHp() <= 0)
     {
         
         //display messgage otherCreate is die
         CCLOG("display message current creature is died");
         die();
+        return true;
         
     }
+    return false;
    
 }
 

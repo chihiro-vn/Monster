@@ -38,11 +38,13 @@ bool AppDelegate::applicationDidFinishLaunching() {
     director->setAnimationInterval(1.0 / 60);
 
     // create a scene. it's an autorelease object
-    auto scene = HelloWorld::createScene();
-
+    this->setUp();
+    auto scene = HelloWorld::createScene(this->myPlayer, this->myEnemy);
+   
     // run
     director->runWithScene(scene);
-
+    
+    
     return true;
 }
 
@@ -61,3 +63,25 @@ void AppDelegate::applicationWillEnterForeground() {
     // if you use SimpleAudioEngine, it must resume here
     // SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
 }
+
+void AppDelegate::setUp()
+{
+    myPlayer = new class Player();
+    myPlayer->_sprite = Sprite::create("char1.png");
+    myPlayer->setHp(1000);
+    myPlayer->setMp(1000);
+    myPlayer->_sprite->setName("ななし");
+    
+    myEnemy = new class Enemy();
+    myEnemy->_sprite = Sprite::create("char2.png");
+    myEnemy->setHp(999);
+    myEnemy->setMp(999);
+    
+    myPlayer->_sprite->setScale(1.5);
+    myEnemy->_sprite->setScale(1.5);
+    myPlayer->_sprite->setName("まどうし");
+    
+    CC_SAFE_RETAIN(myPlayer);
+    CC_SAFE_RETAIN(myEnemy);
+}
+

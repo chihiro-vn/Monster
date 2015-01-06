@@ -8,18 +8,22 @@
 #include "MonsterBox.h"
 #include "MessageBox.h"
 
-class HelloWorld : public cocos2d::Layer
+class HelloWorld : public cocos2d::Layer, public MessageBoxDelegate
 {
-private:
-    class Player *myplayer;
-    class Enemy *myEnemy1;
-    class Enemy *myEnemy2;
+public:
+    CC_SYNTHESIZE_RETAIN(Creature*, _player, myPlayer);
+    CC_SYNTHESIZE_RETAIN(Creature*, _enemy, myEnemy);
+    CC_SYNTHESIZE(int, state, State);// 0: intro, 1: turn me or enemy
+    class MessageBox *messageBox;
+    
 public:
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
     static cocos2d::Scene* createScene();
+    static cocos2d::Scene* createScene(Creature* player, Creature* enemy);
 
     // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
     virtual bool init();
+    virtual bool init(Creature* player, Creature* enemy);
     
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
@@ -38,8 +42,12 @@ public:
     
     void Apply(cocos2d::Ref * pSender);
     
-    void DrawEngine(CreatureType _type);
+    void DrawEngine(class Creature *myPlayer, class Creature *myEnemy);
     
+    virtual void onBtnNextTouch(cocos2d::Ref* pSender);
+    
+    void CreateMessage(char * sms);
+
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
 };
